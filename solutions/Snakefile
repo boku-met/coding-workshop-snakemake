@@ -1,0 +1,49 @@
+THRESHOLDS = [25, 30, 35]
+
+
+rule all:
+    input:
+        expand("figures/heat_days_ge_{threshold}.png", threshold=THRESHOLDS)
+    default_target: True
+
+
+rule prepare_temperature_data:
+    input:
+        raw="data/raw/vienna_hohe_warte_tlmax.csv"
+    output:
+        clean="data/processed/vienna_hohe_warte_tlmax.csv"
+    shell:
+        """
+        python scripts/prepare_data.py \
+          --input {input.raw} \
+          --output {output.clean}
+        """
+
+
+rule count_heat_days:
+    input:
+        daily="data/processed/vienna_hohe_warte_tlmax.csv"
+    output:
+        counts="results/heat_days_ge_{threshold}.csv"
+    params:
+        threshold="{threshold}"
+    shell:
+        """
+        python scripts/count_heat_days.py \
+          --input {input.daily} \
+          --threshold {params.threshold} \
+          --output {output.counts}
+        """
+
+
+rule plot_heat_days:
+    input:
+        counts="results/heat_days_ge_{threshold}.csv"
+    output:
+        figure="figures/heat_days_ge_{threshold}.png"
+    shell:
+        """
+        python scripts/plot_heat_days.py \
+          --input {input.counts} \
+          --output {output.figure}
+        """

@@ -1,0 +1,10 @@
+name: snakemake-heatdays-workshop
+channels:
+  - conda-forge
+  - bioconda
+channel_priority: strict
+dependencies:
+  - python=3.11
+  - snakemake>=9,<10
+  - pandas
+  - matplotlib

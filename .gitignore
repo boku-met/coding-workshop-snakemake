@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+node_modules/
+.pixi/
+.snakemake/
+data/processed/
+results/
+figures/
+reports/
+logs/
+benchmarks/
+work/
+*.egg-info/
+.env
