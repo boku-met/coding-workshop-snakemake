@@ -58,7 +58,7 @@ solutions/Snakefile       complete workflow
 scripts/                  prewritten scripts
 data/raw/                 observations
 exercises/workshop.md     instructions
-(slides/                  slides             not yet available)
+slides/                   slides
 ```
 
 ## Data source and coverage
