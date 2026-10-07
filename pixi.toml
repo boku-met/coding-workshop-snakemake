@@ -1,0 +1,36 @@
+[workspace]
+channels = ["conda-forge", "bioconda"]
+platforms = ["linux-64", "osx-arm64", "osx-64", "win-64"]
+
+[dependencies]
+python = ">=3.11,<3.13"
+snakemake = ">=9,<10"
+pandas = "*"
+matplotlib = "*"
+
+[tasks]
+workflow-dryrun = "snakemake -s solutions/Snakefile -np"
+workflow-run = "snakemake -s solutions/Snakefile -j 1"
+workflow-clean = "snakemake -s solutions/Snakefile --delete-all-output || true"
+install-slide-dependencies = { cmd = "npm install --no-audit --no-fund", default-environment = "slides" }
+export-slides = {
+    cmd = "npm run export-slides",
+    depends-on = ["install-slide-dependencies"],
+    default-environment = "slides"
+}
+serve-slides = {
+    cmd = "npm run serve-slides",
+    depends-on = ["install-slide-dependencies"],
+    default-environment = "slides"
+}
+refresh-workshop = {
+    cmd = "python scripts/refresh_workshop.py",
+    depends-on = ["install-slide-dependencies"],
+    default-environment = "slides"
+}
+
+[environments.slides]
+features = []
+
+[environments.slides.dependencies]
+nodejs = ">=20.19"
